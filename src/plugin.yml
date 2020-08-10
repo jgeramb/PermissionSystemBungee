@@ -1,0 +1,4 @@
+name: PermissionSystemBungee
+version: 1.0
+author: Justix
+main: net.dev.permissionsbungee.PermissionSystemBungee
