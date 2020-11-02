@@ -48,7 +48,7 @@ public class PermissionSystemBungee extends Plugin {
 				mysqlPermissionManager.collectUserData();
 				mysqlPermissionManager.collectGroupData();
 			}
-		}, 0, 1000);
+		}, 0, 2500);
 		
 		BungeeCord.getInstance().getPluginManager().registerListener(this, new PermissionCheckListener());
 		
