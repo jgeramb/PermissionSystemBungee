@@ -1,8 +1,6 @@
 package net.dev.permissionsbungee;
 
-import java.util.HashMap;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 import net.dev.permissionsbungee.listeners.PermissionCheckListener;
 import net.dev.permissionsbungee.sql.MySQL;

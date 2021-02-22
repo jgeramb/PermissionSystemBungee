@@ -6,9 +6,7 @@ import java.io.IOException;
 import net.dev.permissionsbungee.PermissionSystemBungee;
 import net.md_5.bungee.BungeeCord;
 import net.md_5.bungee.api.plugin.PluginDescription;
-import net.md_5.bungee.config.Configuration;
-import net.md_5.bungee.config.ConfigurationProvider;
-import net.md_5.bungee.config.YamlConfiguration;
+import net.md_5.bungee.config.*;
 
 public class Utils {
 
