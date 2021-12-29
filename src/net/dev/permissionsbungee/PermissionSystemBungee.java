@@ -5,7 +5,7 @@ import java.util.*;
 import net.dev.permissionsbungee.listeners.PermissionCheckListener;
 import net.dev.permissionsbungee.sql.MySQL;
 import net.dev.permissionsbungee.sql.MySQLPermissionManager;
-import net.dev.permissionsbungee.utils.Utils;
+import net.dev.permissionsbungee.utilities.Utilities;
 import net.md_5.bungee.BungeeCord;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.Configuration;
@@ -19,26 +19,26 @@ public class PermissionSystemBungee extends Plugin {
 	}
 	
 	public MySQL mysql;
-	private Timer t;
+	private Timer timer;
 	
-	private Utils utils;
+	private Utilities utilities;
 	private MySQLPermissionManager mysqlPermissionManager;
 	
 	@Override
 	public void onEnable() {
 		instance = this;
 		
-		utils = new Utils();
+		utilities = new Utilities();
 		
-		Configuration cfg = utils.getConfig();
+		Configuration configuration = utilities.getConfiguration();
 		
-		mysql = new MySQL(cfg.getString("MySQL.hostname"), cfg.getString("MySQL.port"), cfg.getString("MySQL.database"), cfg.getString("MySQL.username"), cfg.getString("MySQL.password"));
+		mysql = new MySQL(configuration.getString("MySQL.hostname"), configuration.getString("MySQL.port"), configuration.getString("MySQL.database"), configuration.getString("MySQL.username"), configuration.getString("MySQL.password"));
 		mysql.connect();
 		
 		mysqlPermissionManager = new MySQLPermissionManager(mysql);
 
-		t = new Timer();
-		t.schedule(new TimerTask() {
+		timer = new Timer();
+		timer.schedule(new TimerTask() {
 			
 			@Override
 			public void run() {
@@ -50,19 +50,19 @@ public class PermissionSystemBungee extends Plugin {
 		
 		BungeeCord.getInstance().getPluginManager().registerListener(this, new PermissionCheckListener());
 		
-		utils.sendConsole("§eThe system has been enabled§7!");
+		utilities.sendConsole("§eThe system has been enabled§7!");
 	}
 	
 	@Override
 	public void onDisable() {
-		t.cancel();
+		timer.cancel();
 		mysql.disconnect();
 		
-		utils.sendConsole("§cThe system has been disabled§7!");
+		utilities.sendConsole("§cThe system has been disabled§7!");
 	}
 	
-	public Utils getUtils() {
-		return utils;
+	public Utilities getUtils() {
+		return utilities;
 	}
 	
 	public MySQLPermissionManager getMySQLPermissionManager() {

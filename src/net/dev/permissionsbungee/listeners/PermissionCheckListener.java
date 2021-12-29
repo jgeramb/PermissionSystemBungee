@@ -12,27 +12,27 @@ import net.md_5.bungee.event.EventHandler;
 public class PermissionCheckListener implements Listener {
 
 	@EventHandler
-	public void onPermissionCheck(PermissionCheckEvent e) {
+	public void onPermissionCheck(PermissionCheckEvent event) {
 		MySQLPermissionManager mysqlPermissionManager = PermissionSystemBungee.getInstance().getMySQLPermissionManager();
 		
-		if(e.getSender() instanceof ProxiedPlayer) {
-			ProxiedPlayer p = (ProxiedPlayer) e.getSender();
-			String uuid = p.getUniqueId().toString();
-			String permission = e.getPermission().toLowerCase();
-			List<String> playerPermissions = mysqlPermissionManager.getPlayerPermissions(uuid);
+		if(event.getSender() instanceof ProxiedPlayer) {
+			ProxiedPlayer proxiedPlayer = (ProxiedPlayer) event.getSender();
+			String uniqueId = proxiedPlayer.getUniqueId().toString();
+			String permission = event.getPermission().toLowerCase();
+			List<String> playerPermissions = mysqlPermissionManager.getPlayerPermissions(uniqueId);
 			
 			if(playerPermissions != null) {
 				for (String playerPermission : playerPermissions) {
 					if(playerPermission.equalsIgnoreCase("-" + permission)) {
-						e.setHasPermission(false);
+						event.setHasPermission(false);
 						return;
 					} else if(playerPermission.equalsIgnoreCase(permission) || playerPermission.equalsIgnoreCase("*"))
-						e.setHasPermission(true);
+						event.setHasPermission(true);
 				}
 			}
 			
 			for (String groupName : mysqlPermissionManager.getGroupNames()) {
-				if(mysqlPermissionManager.getGroupMembers(groupName).contains(uuid)) {
+				if(mysqlPermissionManager.getGroupMembers(groupName).contains(uniqueId)) {
 					String parent = groupName;
 					
 					while((parent = mysqlPermissionManager.getGroupParent(parent)) != null) {
@@ -41,24 +41,24 @@ public class PermissionCheckListener implements Listener {
 						if(permissions != null) {
 							for (String groupPermission : permissions) {
 								if(groupPermission.equalsIgnoreCase("-" + permission)) {
-									e.setHasPermission(false);
+									event.setHasPermission(false);
 									return;
 								} else if(groupPermission.equalsIgnoreCase(permission) || groupPermission.equalsIgnoreCase("*"))
-									e.setHasPermission(true);
+									event.setHasPermission(true);
 							}
 						} else
 							break;
 					}
 					
 					if(permission.equalsIgnoreCase("group." + groupName))
-						e.setHasPermission(true);
+						event.setHasPermission(true);
 					
 					for (String groupPermission : mysqlPermissionManager.getGroupPermissions(groupName)) {
 						if(groupPermission.equalsIgnoreCase("-" + permission)) {
-							e.setHasPermission(false);
+							event.setHasPermission(false);
 							return;
 						} else if(groupPermission.equalsIgnoreCase(permission) || groupPermission.equalsIgnoreCase("*"))
-							e.setHasPermission(true);
+							event.setHasPermission(true);
 					}
 				}
 			}

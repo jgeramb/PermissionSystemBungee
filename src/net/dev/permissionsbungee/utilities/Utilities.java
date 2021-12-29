@@ -1,18 +1,19 @@
-package net.dev.permissionsbungee.utils;
+package net.dev.permissionsbungee.utilities;
 
 import java.io.File;
 import java.io.IOException;
 
 import net.dev.permissionsbungee.PermissionSystemBungee;
 import net.md_5.bungee.BungeeCord;
+import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.plugin.PluginDescription;
 import net.md_5.bungee.config.*;
 
-public class Utils {
+public class Utilities {
 
 	public File directory, file;
 	
-	public Utils() {
+	public Utilities() {
 		PluginDescription desc = PermissionSystemBungee.getInstance().getDescription();
 		
 		directory = new File("plugins/" + desc.getName() + "/");
@@ -29,7 +30,7 @@ public class Utils {
 			}
 		}
 		
-		Configuration cfg = getConfig();
+		Configuration cfg = getConfiguration();
 		addDefault(cfg, "MySQL.hostname", "localhost");
 		addDefault(cfg, "MySQL.port", "3306");
 		addDefault(cfg, "MySQL.database", "private");
@@ -39,20 +40,20 @@ public class Utils {
 		saveConfig(cfg);
 	}
 	
-	public void saveConfig(Configuration cfg) {
+	public void saveConfig(Configuration configuration) {
 		try {
-			ConfigurationProvider.getProvider(YamlConfiguration.class).save(cfg, file);
+			ConfigurationProvider.getProvider(YamlConfiguration.class).save(configuration, file);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	private void addDefault(Configuration cfg, String path, Object value) {
-		if(!(cfg.contains(path)))
-			cfg.set(path, value);
+	private void addDefault(Configuration configuration, String path, Object value) {
+		if(!(configuration.contains(path)))
+			configuration.set(path, value);
 	}
 
-	public Configuration getConfig() {
+	public Configuration getConfiguration() {
 		try {
 			return ConfigurationProvider.getProvider(YamlConfiguration.class).load(file);
 		} catch (IOException e) {
@@ -63,7 +64,7 @@ public class Utils {
 	}
 	
 	public void sendConsole(String msg) {
-		BungeeCord.getInstance().getConsole().sendMessage("§8[§3§lPermissionSystemBungee§8] " + msg);
+		BungeeCord.getInstance().getConsole().sendMessage(TextComponent.fromLegacyText("§8» §3System §7┃ " + msg));
 	}
 
 }
