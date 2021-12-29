@@ -1,4 +1,4 @@
-# This is the SourceCode of the BungeeCord addon of my PermissionSystem
+# This is the SourceCode of the BungeeCord add-on of UltimatePerms
 
-## Please support me by donating some money
+## You can donate here to support my work:
 https://www.paypal.me/JustixDevelopment
